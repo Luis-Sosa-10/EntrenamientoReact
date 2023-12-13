@@ -9,6 +9,7 @@ import Peliculas from './Peliculas';
 import Perfil from './Perfil';
 import Principal from './Principal';
 import Entorno from './Entorno';
+import Calculadora from './Calculadora/Calculadora';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 const Tab = createBottomTabNavigator();
@@ -39,6 +40,7 @@ function PerfilStack() {
       <EntrenamientoViews.Screen name="Formulario" component={Formulario} options={{ headerShown: false }} />  
       <EntrenamientoViews.Screen name="Principal" component={Principal} options={{ headerShown: false }} /> 
       <EntrenamientoViews.Screen name="Entorno" component={Entorno} options={{ headerShown: false }} />    
+      <EntrenamientoViews.Screen name="Calculadora" component={Calculadora} options={{ headerShown: false }} />    
     </EntrenamientoViews.Navigator>
     )
   }

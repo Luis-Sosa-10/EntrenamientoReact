@@ -23,6 +23,12 @@ module.exports = {
     ],
     Ejercicios: [
         {
+            titulo: 'Calculadora',
+            Entrenamiento: 'Componentes hijo RN',
+            descripcion: 'Crear un componente donde se le establezcan propiedades las cuales se puedan utilizar para su funcionamiento o para regresar datos al momento de finalizar alguna acción',
+            Navegacion: 'Calculadora'
+        },
+        {
             titulo: 'Peliculas',
             Entrenamiento: 'Consumir Rest Avanzado',
             descripcion: 'Se realizo la conexion hacia un API que retorna una lista de peliculas',
