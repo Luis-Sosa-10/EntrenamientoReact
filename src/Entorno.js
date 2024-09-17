@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import {REACT_APP_DEV_MODE, REACT_APP_PROD_MODE} from '@env';
+import Globals from './Globals';
 
 import {
   View,
@@ -16,6 +17,11 @@ class Entorno extends Component {
       loaded: false,
     };
   }
+
+  componentDidMount() {
+    Globals.VistaActual = "Entorno";
+    }
+
   render() {
     const url =
         process.env.NODE_ENV === 'development'
@@ -28,7 +34,7 @@ class Entorno extends Component {
                   <View>
             <TouchableOpacity
              style={{alignItems: 'center'}}
-             onPress={() => {this.props.navigation.navigate('Principal')}}
+             onPress={() => { Globals.ocultarTap = false, this.props.navigation.navigate('Principal')}}
              >
               <Image
                 source={require('./images/back.png')}

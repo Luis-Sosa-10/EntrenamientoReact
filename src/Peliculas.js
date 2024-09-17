@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
+import Globals from './Globals';
 
 import {
   TextInput,
@@ -29,15 +30,18 @@ class Peliculas extends Component {
         console.error(error);
       });
   }
+  componentDidMount() {
+    }
 
   render() {
+    Globals.VistaActual = "Perliculas";
     return (
       <View style={{flex: 1}}>
         <View style={{alignItems: 'center', marginTop: 10}}>
           <View>
             <TouchableOpacity
              style={{alignItems: 'center'}}
-             onPress={() => {this.props.navigation.navigate('Principal')}}
+             onPress={() => { Globals.ocultarTap = false, this.props.navigation.navigate('Principal')}}
              >
               <Image
                 source={require('./images/back.png')}

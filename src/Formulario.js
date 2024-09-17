@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {Formik} from 'formik';
 import * as Yup from 'yup';
+import Globals from './Globals';
 
 import {TextInput, View, Button, Text, TouchableOpacity,Image} from 'react-native';
 
@@ -9,11 +10,15 @@ class Formulario extends Component {
     super(props);
     this.state = {};
   }
+  componentDidMount() {
+    }
+
   render() {
+    Globals.VistaActual = "Formulario";
     return <View style={{flex: 1}}><View>
     <TouchableOpacity
      style={{alignItems: 'center'}}
-     onPress={() => {this.props.navigation.navigate('Principal')}}
+     onPress={() => { Globals.ocultarTap = false, this.props.navigation.navigate('Principal')}}
      >
       <Image
         source={require('./images/back.png')}

@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import {View, TextInput, Text, TouchableOpacity, Image} from 'react-native';
 import Boton from './Boton';
 import Selector from './Selector';
+import Globals from '../Globals';
 
 class Calculadora extends Component {
   constructor(props) {
@@ -21,13 +22,16 @@ class Calculadora extends Component {
       ],
     };
   }
+  componentDidMount() {
+  }
 
   render() {
+    Globals.VistaActual = "Calculadora";
     return (
       <View>
         <TouchableOpacity
           style={{alignItems: 'left'}}
-          onPress={() => {
+          onPress={() => { Globals.ocultarTap = false,
             this.props.navigation.navigate('Principal');
           }}>
           <Image

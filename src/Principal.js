@@ -12,7 +12,12 @@ import {
 } from 'react-native';
 
 class Perfil extends Component {
+  componentWillUnmount() {
+//    Globals.VistaActual = "Principal";
+    }
+  
   render() {
+    Globals.ocultarTap = false
     return (
       <View style={{flex: 1}}>
         <View
@@ -45,7 +50,7 @@ class Perfil extends Component {
                 padding: 16,
               }}>
               <TouchableOpacity
-              onPress={() => {this.props.navigation.navigate(item.Navegacion)}}
+              onPress={() => {   Globals.ocultarTap = true,this.props.navigation.navigate(item.Navegacion)}}
                 style={{
                   backgroundColor: '#FFEE9F',
                   borderRadius: 8,
