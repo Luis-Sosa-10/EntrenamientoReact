@@ -10,6 +10,8 @@ import {
   Touchable,
   TouchableOpacity,
 } from 'react-native';
+import {ThemeContext} from './Tema/ThemeContext'; // Importa el contexto del tema
+
 
 class Perfil extends Component {
   componentWillUnmount() {
@@ -19,10 +21,12 @@ class Perfil extends Component {
   render() {
     Globals.ocultarTap = false
     return (
+       <ThemeContext.Consumer>
+            {({ theme }) => (
       <View style={{flex: 1}}>
         <View
           style={{
-            backgroundColor: '#048c32',
+            backgroundColor: theme === 'dark' ? Globals.TemaOscuro : Globals.TemaClaro,
             paddingTop: 20,
             paddingVertical: 50,
           }}>
@@ -34,14 +38,14 @@ class Perfil extends Component {
                   fontWeight: 'bold',
                   marginLeft: 15,
                   marginTop: 30,
-                  color: 'black',
+                  color: theme === 'dark' ? Globals.TextoOscuro : Globals.TextoClaro
                 }}>
                 Ejercicios realizados duran los entrenamientos
               </Text>
             </View>
           </View>
         </View>
-        <ScrollView style={{flex: 1}}>
+        <ScrollView style={{flex: 1, backgroundColor: theme === 'dark' ? '#000000' : '#FFFFFF'}}>
           {Globals.Ejercicios.map(item => (
             <View
               style={{
@@ -52,7 +56,7 @@ class Perfil extends Component {
               <TouchableOpacity
               onPress={() => {   Globals.ocultarTap = true,this.props.navigation.navigate(item.Navegacion)}}
                 style={{
-                  backgroundColor: '#FFEE9F',
+                  backgroundColor: theme === 'dark' ? Globals.TemaTarjetaOscuro : Globals.TemaTarjetaClaro,
                   borderRadius: 8,
                   padding: 16,
                   elevation: 2, // Sombra en Android
@@ -63,7 +67,7 @@ class Perfil extends Component {
                     fontSize: 20,
                     fontWeight: 'bold',
                     marginBottom: 8,
-                    color: 'black'
+                    color: theme === 'dark' ? Globals.TextoOscuro : Globals.TextoClaro
                   }}>
                   {item.titulo}
                 </Text>
@@ -71,14 +75,14 @@ class Perfil extends Component {
                   style={{
                     fontSize: 16,
                     marginBottom: 8,
-                    color: 'black'
+                    color: theme === 'dark' ? Globals.TextoOscuro : Globals.TextoClaro
                   }}>
                   {item.Entrenamiento}
                 </Text>
                 <Text
                   style={{
                     fontSize: 14,
-                    color: 'black'
+                    color: theme === 'dark' ? Globals.TextoOscuro : Globals.TextoClaro
                   }}>
                   {item.descripcion}
                 </Text>
@@ -87,23 +91,9 @@ class Perfil extends Component {
           ))}
         </ScrollView>
       </View>
+      )}
+      </ThemeContext.Consumer>
     );
   }
 }
-const styles = StyleSheet.create({
-  item: {
-    backgroundColor: '#FFC66E',
-    padding: 10,
-    marginVertical: 8,
-  },
-  header: {
-    fontSize: 32,
-    backgroundColor: '#fff',
-    color: 'black',
-  },
-  title: {
-    fontSize: 24,
-    color: 'black',
-  },
-});
 export default Perfil;

@@ -1,5 +1,7 @@
-import React, {Component, useState,useEffect } from 'react';
+import React, {Component, useState, } from 'react';
 import {gql, useQuery, useMutation} from '@apollo/client';
+import { CREAR_PERSONAJE } from './constantes';
+import { EDITAR_PERSONAJE } from './constantes';
 import {
   View,
   Text,
@@ -13,41 +15,19 @@ import {
   FlatList,
   Dimensions,
 } from 'react-native';
-import {useNavigation,useRoute} from '@react-navigation/native';
-import {create} from 'react-test-renderer';
+import {useNavigation} from '@react-navigation/native';
+import Globals from './Globals';
 const _window = Dimensions.get('window');
-const CREAR_PERSONAJE = gql`
-  mutation agregarPersonaje(
-    $nombre: String!
-    $alias: String!
-    $clasificacion: String!
-    $franquicia: String!
-    $habilidad: String!
-  ) {
-    addPersonaje(
-      Nombre: $nombre
-      Alias: $alias
-      Clasificacion: $clasificacion
-      Franquicia: $franquicia
-      Habilidad: $habilidad
-    ) {
-      Nombre
-      Alias
-      Clasificacion
-      Franquicia
-    }
-  }
-`;
 const ClasificacionValores = [{value: 'Heroe', color: 'yellow'}, {value: 'Villano', color: 'black'}];
 const FranquiciaValores = [{value: 'Marvel', color: 'red'}, {value: 'DC', color: 'blue'}];
 function Formulario() {
-  const route = useRoute();
   const navigation = useNavigation();
-  const [nombre, setNombre] = useState(route.params ? route.params.nombre :'');
-  const [alias, setAlias] = useState('');
-  const [clasificacion, setClasificacion] = useState('');
-  const [franquicia, setFranquicia] = useState('');
-  const [habilidad, setHabilidad] = useState('');
+  const id = Globals.editarPersonaje != null ? Globals.editarPersonaje.id : 0 ;
+  const [nombre, setNombre] = useState(Globals.editarPersonaje != null ? Globals.editarPersonaje.Nombre : '');
+  const [alias, setAlias] = useState(Globals.editarPersonaje != null ? Globals.editarPersonaje.Alias : '');
+  const [clasificacion, setClasificacion] = useState(Globals.editarPersonaje != null ? Globals.editarPersonaje.Clasificacion : '');
+  const [franquicia, setFranquicia] = useState(Globals.editarPersonaje != null ? Globals.editarPersonaje.Franquicia : '')
+  const [habilidad, setHabilidad] = useState(Globals.editarPersonaje != null ? Globals.editarPersonaje.Habilidad : '');
   const [selector1, setSelector1] = useState(false);
   const [selector2, setSelector2] = useState(false);
   const estados = [
@@ -58,7 +38,7 @@ function Formulario() {
     setHabilidad,
   ];
   const [agregarPersonaje] = useMutation(CREAR_PERSONAJE);
-
+  const [editarPersonaje] = useMutation(EDITAR_PERSONAJE);
 
   // Función para manejar el cambio en los campos de texto
   handleChange = (name, value) => {
@@ -68,25 +48,50 @@ function Formulario() {
 
   // Función para manejar el envío del formulario
   const handleSubmit = () => {
-    agregarPersonaje({
-      variables: {
-        nombre,
-        alias,
-        clasificacion,
-        franquicia,
-        habilidad,
-      },
+if(Globals.editarPersonaje != null){
+  editarPersonaje({
+    variables: {
+      id,
+      nombre,
+      alias,
+      clasificacion,
+      franquicia,
+      habilidad,
+    },
+  })
+    .then(response => {
+      Alert.alert(
+        'Se ha editado correctamente',
+        'Se edito el personaje ' + nombre,
+        [{text: 'OK', onPress: () => navigation.goBack()}],
+      );
     })
-      .then(response => {
-        Alert.alert(
-          'Se ha añadido correctamente',
-          'Se añadio correctamente el personaje ' + nombre,
-          [{text: 'OK', onPress: () => navigation.goBack()}],
-        );
-      })
-      .catch(error => {
-        console.error('Error al agregar personaje:', error);
-      });
+    .catch(error => {
+      console.error('Error al editar personaje:', error);
+    });
+}else{
+  const id = Globals.Usuario.id;
+  agregarPersonaje({
+    variables: {
+      nombre,
+      alias,
+      clasificacion,
+      franquicia,
+      habilidad,
+      idUsuario: id,
+    },
+  })
+    .then(response => {
+      Alert.alert(
+        'Se ha añadido correctamente',
+        'Se añadio correctamente el personaje ' + nombre,
+        [{text: 'OK', onPress: () => navigation.goBack()}],
+      );
+    })
+    .catch(error => {
+      console.error('Error al agregar personaje:', error);
+    });
+}
   };
 
   Clean = () => {
@@ -181,7 +186,10 @@ function Formulario() {
         <TouchableOpacity
           style={{alignItems: 'center'}}
           onPress={() => {
-            navigation.navigate('GraphQLSeleccion');
+            navigation.navigate(Globals.editarPersonaje != null ? 'Personajes' : 'GraphQLSeleccion');
+            if(Globals.editarPersonaje != null){
+              Globals.editarPersonaje = null;
+            }
           }}>
           <Image
             source={require('./images/back.png')}
@@ -309,7 +317,7 @@ function Formulario() {
         }}>
         <TouchableOpacity style={styles.button} onPress={() => handleSubmit()}>
           <Text style={{color: '#FFF', fontSize: 16, fontWeight: 'bold'}}>
-            Añadir Personaje
+           {Globals.editarPersonaje != null ? 'Editar Personaje': 'Añadir Personaje' }
           </Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={() => Clean()}>

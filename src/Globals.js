@@ -1,8 +1,15 @@
+const { Text } = require("react-native");
 
 module.exports = {
     Nombre: 'Luis Alberto Sosa Gonzalez',
     Correo: 'lsosa@campusmovil.com',
     Telefono: '7831466250',
+    TemaClaro: '#048c32',
+    TemaOscuro: '#025219',
+    TextoClaro: 'black',
+    TextoOscuro: '#E0E0E0',
+    TemaTarjetaOscuro: '#B87333',
+    TemaTarjetaClaro: '#FFC66E',
     Pasatiempos: [
         {
             title: 'Pasatiempos',
@@ -26,7 +33,7 @@ module.exports = {
             titulo: 'Personajes',
             Entrenamiento: 'Consumir servicios GrapQL',
             descripcion: 'Se obtendra informacion sobre paises de una API que funciona con GraphQL',
-            Navegacion: 'GraphQLSeleccion'
+            Navegacion: 'Splash'
         },
         {
             titulo: 'Hooks',
@@ -58,7 +65,14 @@ module.exports = {
             descripcion: 'Realizacion de un formulario utilizando Formik',
             Navegacion: 'Formulario'
         },
+        {
+            titulo: 'Tema',
+            Entrenamiento: 'AsyncStorage y Context',
+            descripcion: 'Realiza un cambio de tema en la aplicacion',
+            Navegacion: 'Tema'
+        },
     ],
     ocultarTap: false,
     editarPersonaje: null,
+    Usuario: null,
 };

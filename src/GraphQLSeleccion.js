@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
-import {View, TouchableOpacity, Text, StyleSheet, Image} from 'react-native';
+import {View, TouchableOpacity, Text, StyleSheet, Image, Alert} from 'react-native';
 import Globals from './Globals';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 class GraphQLSeleccion extends Component {
   componentDidMount() {
@@ -45,8 +46,26 @@ class GraphQLSeleccion extends Component {
           onPress={() => this.props.navigation.navigate('addPersonaje')}>
           <Text style={styles.buttonText}>Añadir Personaje</Text>
         </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.button}
+          onPress={() =>  Alert.alert(
+            'Cerrar Sesion',
+            '¿Estas seguro de querer cerrar esta sesion?:',
+            [{text: 'OK', onPress: () => this.logout()}],
+          )}>
+          <Text style={styles.buttonText}>Cerrar Sesion</Text>
+        </TouchableOpacity>
       </View>
     );
+  }
+ async logout(){
+    Globals.Usuario = null;
+    try {
+      await AsyncStorage.removeItem("Usuario");
+      this.props.navigation.navigate('Login')
+    } catch (error) {
+      console.error('Error al borrar el elemento:', error);
+    }
   }
 }
 

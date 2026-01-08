@@ -15,8 +15,13 @@ import GraphQL from './GraphQL';
 import Personajes from './Personajes';
 import GraphQLSeleccion from './GraphQLSeleccion';
 import addPersonaje from './addPersonaje';
+import Login from './Login';
+import Register from './Register';
+import Splash from './Splash';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Globals from './Globals';
+import Tema from './Tema/Tema';
+import StateTema from './Tema/StateTema';
 
 const Tab = createBottomTabNavigator();
 const PerfilViews = createNativeStackNavigator();
@@ -52,6 +57,10 @@ function PerfilStack() {
       <EntrenamientoViews.Screen name="Personajes" component={Personajes} options={{ headerShown: false }} />     
       <EntrenamientoViews.Screen name="GraphQLSeleccion" component={GraphQLSeleccion} options={{ headerShown: false }} />     
       <EntrenamientoViews.Screen name="addPersonaje" component={addPersonaje} options={{ headerShown: false }} />     
+      <EntrenamientoViews.Screen name="Login" component={Login} options={{ headerShown: false }} />    
+      <EntrenamientoViews.Screen name="Register" component={Register} options={{ headerShown: false }} />    
+      <EntrenamientoViews.Screen name="Splash" component={Splash} options={{ headerShown: false }} /> 
+      <EntrenamientoViews.Screen name="Tema" component={Tema} options={{ headerShown: false }} />       
     </EntrenamientoViews.Navigator>
     )
   }
@@ -142,7 +151,9 @@ return 'none'
   export default function Navigator() {
     return (
       <NavigationContainer>
-        <MainStack/>
+        <StateTema>
+          <MainStack/>
+        </StateTema>
       </NavigationContainer>
     )
   }

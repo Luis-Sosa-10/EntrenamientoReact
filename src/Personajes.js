@@ -1,6 +1,6 @@
 import React, {Component, useEffect, useState} from 'react';
 import Globals from './Globals';
-import {gql, useQuery, useMutation} from '@apollo/client';
+import {gql, useQuery, useMutation, useSubscription} from '@apollo/client';
 import {
   View,
   Text,
@@ -10,17 +10,19 @@ import {
   Image,
   ActivityIndicator,
   TextInput,
+  Alert,
 } from 'react-native';
 import {useNavigation, useFocusEffect} from '@react-navigation/native';
-const ELIMINARPERSONAJE = gql`
-  mutation eliminar(
-    $id: Int!
-  ) {
-    eliminarPersonaje(
-      id: $id
-    )
+import { ELIMINARPERSONAJE } from './constantes';
+import { QUERY } from './constantes';
+const ACTIVAR_SUBSCRIPCION = gql`
+subscription personajeAdded($idUsuario: ID!) {
+  personajeAdded(idUsuario: $idUsuario) {
+    idUsuario
   }
+}
 `;
+
 function Personajes() {
   const navigation = useNavigation();
   const [state, setState] = useState({
@@ -31,10 +33,14 @@ function Personajes() {
   const [clasificacion, setClasificacion] = useState('');
   const [franquicia, setFranquicia] = useState('');
   const [gdl, setGDL] = useState(0);
+  const idUsuario = Globals.Usuario.id;
+  const [eliminar] = useMutation(ELIMINARPERSONAJE);
+
+
   const QUERY = [
     gql`
       query {
-        data: TodosPersonajes {
+        data: TodosPersonajes (idUsuario: "${idUsuario}"){
           id
           Nombre
           Alias
@@ -46,7 +52,7 @@ function Personajes() {
     `,
     gql`
       query {
-       data: Filtrar(Clasificacion: "${clasificacion}" , Franquicia: "${franquicia}") {
+       data: Filtrar(Clasificacion: "${clasificacion}" , Franquicia: "${franquicia}" , idUsuario: "${idUsuario}") {
           id
           Nombre
           Alias
@@ -58,7 +64,15 @@ function Personajes() {
     `,
   ];
   const {data, refetch} = useQuery(QUERY[gdl]);
-  const [eliminar] = useMutation(ELIMINARPERSONAJE);
+ //  Suscripción para recibir nuevos personajes en tiempo real
+ const { data: subData, loading, error } = useSubscription(ACTIVAR_SUBSCRIPCION, {
+  variables: { idUsuario },
+});
+
+console.log("📡 useSubscription iniciado con idUsuario:", idUsuario);
+console.log("⏳ Estado de carga de la suscripción:", loading);
+if (error) console.error("❌ Error en la suscripción:", error);
+
 
   useEffect(() => {
     if (data) {
@@ -68,7 +82,17 @@ function Personajes() {
         loaded: true,
       }));
     }
+
   }, [data]);
+
+  useEffect(() => {
+    if (subData) {
+      refetch();
+      Alert.alert(
+        'Se añadio un nuevo personaje',
+      );
+    }
+  }, [subData]);  // Se ejecuta solo cuando `subData` cambia
 
   useFocusEffect(
     React.useCallback(() => {
@@ -181,7 +205,6 @@ function Personajes() {
   }
 
   const eliminarPersonaje = (id) => {
-    console.log("id: ",id);
     eliminar({
       variables: {
         id,
@@ -191,7 +214,7 @@ function Personajes() {
         refetch();
       })
       .catch(error => {
-        console.error('Error al agregar eliminar:', error);
+        console.error('Error al eliminar:', error);
       });
   };
 
