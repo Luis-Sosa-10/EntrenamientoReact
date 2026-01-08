@@ -12,7 +12,7 @@ class Info extends Component {
     return (
       <ThemeContext.Consumer>
       {({ theme }) => (
-      <View style={{ backgroundColor: theme === 'dark' ? Globals.TemaOscuro : Globals.TemaClaro, paddingTop:20, paddingVertical: 50 }} >
+      <View style={{ backgroundColor: Globals.theme.light.backgroundColor, paddingTop:20, paddingVertical: 50 }} >
       <View style={{ flexDirection: 'row' }} >
         <Image
           style={{ width: 100, height: 100, marginTop: 20 }}
@@ -24,7 +24,7 @@ class Info extends Component {
             fontWeight: 'bold',
             marginLeft: 15,
             marginTop: 30,
-           color: theme === 'dark' ? Globals.TextoOscuro : Globals.TextoClaro
+           color: Globals.theme.light.textColor
           }}
           >
             {Globals.Nombre}
@@ -34,7 +34,7 @@ class Info extends Component {
             fontWeight: 'bold',
             marginLeft: 15,
             marginTop: 5,
-            color: theme === 'dark' ? Globals.TextoOscuro : Globals.TextoClaro
+            color: Globals.theme.light.textColor
           }}
           >
           {Globals.Correo}
@@ -44,7 +44,7 @@ class Info extends Component {
             fontWeight: 'bold',
             marginLeft: 15,
             marginTop: 5,
-           color: theme === 'dark' ? Globals.TextoOscuro : Globals.TextoClaro
+           color: Globals.theme.light.textColor
           }}
           >
             {Globals.Telefono}
@@ -54,7 +54,7 @@ class Info extends Component {
             fontWeight: 'bold',
             marginLeft: 15,
             marginTop: 5,
-            color: theme === 'dark' ? Globals.TextoOscuro : Globals.TextoClaro
+            color: Globals.theme.light.textColor
           }}
           >
             Ir a ejercicios

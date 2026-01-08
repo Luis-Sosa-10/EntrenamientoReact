@@ -151,9 +151,7 @@ return 'none'
   export default function Navigator() {
     return (
       <NavigationContainer>
-        <StateTema>
           <MainStack/>
-        </StateTema>
       </NavigationContainer>
     )
   }

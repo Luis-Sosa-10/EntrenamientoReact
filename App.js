@@ -7,12 +7,16 @@
 
 import React from 'react';
 import Navigator from './src/router.js';
+import { ThemeContext } from './src/Tema/ThemeContext.js';
+import Globals from './src/Globals.js';
 
 
 export default class App extends React.Component {
   render() {
     return (
-        <Navigator/>
+        <ThemeContext.Provider value={Globals.theme.light}>
+          <Navigator/>
+        </ThemeContext.Provider>
     );
   }
 }

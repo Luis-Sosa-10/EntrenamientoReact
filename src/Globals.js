@@ -4,12 +4,20 @@ module.exports = {
     Nombre: 'Luis Alberto Sosa Gonzalez',
     Correo: 'lsosa@campusmovil.com',
     Telefono: '7831466250',
-    TemaClaro: '#048c32',
-    TemaOscuro: '#025219',
-    TextoClaro: 'black',
-    TextoOscuro: '#E0E0E0',
-    TemaTarjetaOscuro: '#B87333',
-    TemaTarjetaClaro: '#FFC66E',
+    theme: {
+        light: {
+            Tema: 'light',
+            backgroundColor: '#048c32',
+            textColor: 'black',
+            TarjetColor: '#FFC66E',
+        },
+        dark: {
+            Tema: 'dark',
+            backgroundColor: '#025219',
+            textColor: '#E0E0E0',
+            TarjetColor: '#B87333',
+        },
+    },
     Pasatiempos: [
         {
             title: 'Pasatiempos',

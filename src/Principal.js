@@ -26,7 +26,7 @@ class Perfil extends Component {
       <View style={{flex: 1}}>
         <View
           style={{
-            backgroundColor: theme === 'dark' ? Globals.TemaOscuro : Globals.TemaClaro,
+            backgroundColor: Globals.theme.light.backgroundColor,
             paddingTop: 20,
             paddingVertical: 50,
           }}>
@@ -38,14 +38,14 @@ class Perfil extends Component {
                   fontWeight: 'bold',
                   marginLeft: 15,
                   marginTop: 30,
-                  color: theme === 'dark' ? Globals.TextoOscuro : Globals.TextoClaro
+                  color: Globals.theme.light.textColor
                 }}>
                 Ejercicios realizados duran los entrenamientos
               </Text>
             </View>
           </View>
         </View>
-        <ScrollView style={{flex: 1, backgroundColor: theme === 'dark' ? '#000000' : '#FFFFFF'}}>
+        <ScrollView style={{flex: 1, backgroundColor: Globals.theme.light.backgroundColor}}>
           {Globals.Ejercicios.map(item => (
             <View
               style={{
@@ -56,7 +56,7 @@ class Perfil extends Component {
               <TouchableOpacity
               onPress={() => {   Globals.ocultarTap = true,this.props.navigation.navigate(item.Navegacion)}}
                 style={{
-                  backgroundColor: theme === 'dark' ? Globals.TemaTarjetaOscuro : Globals.TemaTarjetaClaro,
+                  backgroundColor: Globals.theme.light.TarjetColor,
                   borderRadius: 8,
                   padding: 16,
                   elevation: 2, // Sombra en Android
@@ -67,7 +67,7 @@ class Perfil extends Component {
                     fontSize: 20,
                     fontWeight: 'bold',
                     marginBottom: 8,
-                    color: theme === 'dark' ? Globals.TextoOscuro : Globals.TextoClaro
+                    color: Globals.theme.light.textColor
                   }}>
                   {item.titulo}
                 </Text>
@@ -75,14 +75,14 @@ class Perfil extends Component {
                   style={{
                     fontSize: 16,
                     marginBottom: 8,
-                    color: theme === 'dark' ? Globals.TextoOscuro : Globals.TextoClaro
+                    color: Globals.theme.light.textColor
                   }}>
                   {item.Entrenamiento}
                 </Text>
                 <Text
                   style={{
                     fontSize: 14,
-                    color: theme === 'dark' ? Globals.TextoOscuro : Globals.TextoClaro
+                    color: Globals.theme.light.textColor
                   }}>
                   {item.descripcion}
                 </Text>

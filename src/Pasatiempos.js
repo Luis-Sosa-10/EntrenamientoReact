@@ -1,33 +1,38 @@
 import React, {Component} from 'react';
 import {View, Text, SectionList, StyleSheet, SafeAreaView} from 'react-native';
-import Globals, { TextoClaro } from './Globals';
+import Globals from './Globals';
 import {ThemeContext} from './Tema/ThemeContext'; // Importa el contexto del tema
 
 class Pasatiempos extends Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+    };
+  }
   render() {
+    theme = this.context;
     return (
-      <ThemeContext.Consumer>
-        {({theme}) => (
-          <SafeAreaView style={{flex: 1, backgroundColor: theme === 'dark' ? '#000000' : '#FFFFFF'}}>
+          <SafeAreaView style={{flex: 1, backgroundColor: '#FFFFFF'}}>
             <SectionList
               sections={Globals.Pasatiempos}
               keyExtractor={(item, index) => item + index}
               renderItem={({item}) => (
                 <View
                   style={{
-                    backgroundColor: theme === 'dark' ? Globals.TemaTarjetaOscuro : Globals.TemaTarjetaClaro,
+                    backgroundColor: theme.TarjetColor,
                     padding: 10,
                     marginVertical: 8,
                   }}>
-                  <Text style={{fontSize: 24, color: theme === 'dark' ? Globals.TextoOscuro : TextoClaro}}>{item}</Text>
+                  <Text style={{fontSize: 24, color: theme.textColor}}>{item}</Text>
                 </View>
               )}
               renderSectionHeader={({section: {title}}) => (
                 <Text
                   style={{
                     fontSize: 32,
-                    backgroundColor: theme === 'dark' ? '#000000' : '#FFFFFF',
-                    color: theme === 'dark' ? Globals.TextoOscuro : TextoClaro,
+                    backgroundColor: theme.backgroundColor,
+                    color: theme.textColor,
                   }}>
                   {title}
                 </Text>
@@ -35,8 +40,6 @@ class Pasatiempos extends Component {
             />
           </SafeAreaView>
         )}
-      </ThemeContext.Consumer>
-    );
   }
-}
+  Pasatiempos.contextType = ThemeContext;
 export default Pasatiempos;
